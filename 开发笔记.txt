@@ -1,0 +1,2 @@
+block console 防止作弊
+先手后手随机

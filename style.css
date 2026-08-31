@@ -1,0 +1,592 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    background: #111;
+
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    overflow-x: hidden;
+
+}
+
+
+/* ================================= */
+/* 游戏整体 */
+/* ================================= */
+
+.game {
+
+    width: 100vw;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* ================================= */
+/* 阵线 */
+/* ================================= */
+
+.line-area {
+
+    min-height: 210px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-bottom: 1px solid #333;
+
+}
+
+
+.frontline-area {
+
+    min-height: 220px;
+
+    background: #181818;
+
+}
+
+
+/* ================================= */
+/* 阵线标题 */
+/* ================================= */
+
+.line-title {
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    color: #777;
+
+    letter-spacing: 2px;
+
+}
+
+
+#frontline-owner {
+
+    transition:
+        color 0.15s;
+
+}
+
+
+/* ================================= */
+/* 卡牌列 */
+/* ================================= */
+
+.card-line {
+
+    width: 100%;
+
+    min-height: 170px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 0;
+
+}
+
+
+/* ================================= */
+/* 可部署阵线 */
+/* ================================= */
+
+.card-line.deploy-target {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
+
+}
+
+
+/* ================================= */
+/* 战场卡牌 */
+/* ================================= */
+
+.card-on-board {
+
+    width: 120px;
+
+    height: 170px;
+
+    flex-shrink: 0;
+
+    position: relative;
+
+}
+
+
+.card-on-board img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+}
+
+
+/* ================================= */
+/* HQ */
+/* ================================= */
+
+.hq-card {
+
+    width: 120px;
+
+    height: 170px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #333;
+
+    border: 2px solid #777;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+
+/* ================================= */
+/* 插入位置 */
+/* ================================= */
+
+.insert-slot {
+
+    width: 10px;
+
+    height: 150px;
+
+    flex-shrink: 0;
+
+    margin: 0 3px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
+
+}
+
+
+/* ================================= */
+/* 手牌区域 */
+/* ================================= */
+
+.hand-area {
+
+    min-height: 210px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-end;
+
+    padding: 10px;
+
+    background: #0d0d0d;
+
+}
+
+
+.hand {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-end;
+
+    gap: 8px;
+
+    min-height: 190px;
+
+}
+
+
+/* ================================= */
+/* 手牌卡牌 */
+/* ================================= */
+
+.hand-card {
+
+    width: 120px;
+
+    height: 170px;
+
+    flex-shrink: 0;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: none;
+
+    transition:
+        transform 0.15s,
+        filter 0.15s;
+
+}
+
+
+.hand-card img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+}
+
+
+.hand-card:hover {
+
+    transform:
+        translateY(-12px);
+
+}
+
+
+.hand-card.dragging {
+
+    cursor: grabbing;
+
+    opacity: 0.35;
+
+}
+
+
+/* ================================= */
+/* 拖动中的卡牌 */
+/* ================================= */
+
+.drag-card {
+
+    position: fixed;
+
+    width: 120px;
+
+    height: 170px;
+
+    z-index: 9999;
+
+    pointer-events: none;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(3deg);
+
+    filter:
+        drop-shadow(
+            0 10px 15px
+            rgba(0, 0, 0, 0.6)
+        );
+
+}
+
+
+.drag-card img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* ================================= */
+/* 玩家信息 */
+/* ================================= */
+
+.player-info {
+
+    height: 60px;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #080808;
+
+}
+
+
+button {
+
+    padding: 8px 16px;
+
+    cursor: pointer;
+
+}
+
+
+/* ================================= */
+/* 拖动提示 */
+/* ================================= */
+
+.drag-info {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 125px;
+
+    transform:
+        translateX(-50%);
+
+    padding: 8px 15px;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.8
+        );
+
+    border-radius: 5px;
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.15s;
+
+}
+
+
+.drag-info.visible {
+
+    opacity: 1;
+
+}
+
+/* ================================= */
+/* 单位移动箭头 */
+/* ================================= */
+
+.move-arrow {
+
+    position: fixed;
+
+    z-index: 10000;
+
+    pointer-events: none;
+
+    transform-origin: left center;
+
+}
+
+
+.move-arrow-line {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 50%;
+
+    height: 5px;
+
+    background: white;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.8);
+
+}
+
+.move-arrow-head {
+
+    position: absolute;
+
+    right: -2px;
+
+    top: 50%;
+
+    width: 0;
+
+    height: 0;
+
+    transform: translateY(-50%);
+
+    border-top: 10px solid transparent;
+
+    border-bottom: 10px solid transparent;
+
+    border-left: 18px solid white;
+
+}
+
+.insert-slot {
+    width: 8px;
+    min-width: 8px;
+    height: 100%;
+    margin: 0 4px;
+
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.8);
+
+    pointer-events: none;
+}
+
+/* ==========================================
+   卡牌动态数值
+   ========================================== */
+
+.card-on-board,
+.hand-card,
+.drag-card {
+    position: relative;
+}
+
+
+/* 攻击 */
+
+.card-stat.attack-stat {
+    position: absolute;
+
+    left: 26%;
+    top: 73.08%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    background: #3a3d36;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    text-align: center;
+
+    min-width: 28px;
+
+    min-height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* 防御 */
+
+.card-stat.defense-stat {
+    position: absolute;
+
+    left: 74%;
+    top: 73.08%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    background: #3a3d36;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    text-align: center;
+
+    min-width: 28px;
+
+    min-height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 10;
+
+    pointer-events: none;
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>KARDS Web</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="game">
+
+
+        <!-- ================================= -->
+        <!-- AI 支援阵线 -->
+        <!-- ================================= -->
+
+        <section class="line-area">
+
+            <div class="line-title">
+                AI SUPPORT LINE
+            </div>
+
+            <div
+                id="ai-support-line"
+                class="card-line"
+            >
+            </div>
+
+        </section>
+
+        <!-- ================================= -->
+        <!-- AI 信息 -->
+        <!-- ================================= -->
+
+        <section class="ai-info">
+
+            <span id="ai-hp">
+                20 HP
+            </span>
+
+
+            <span id="ai-kredits">
+                Kredits: 0 / 0
+            </span>
+
+        </section>
+
+        <!-- ================================= -->
+        <!-- 前线 -->
+        <!-- ================================= -->
+
+        <section class="line-area frontline-area">
+
+            <div
+                id="frontline-owner"
+                class="line-title"
+            >
+                FRONTLINE — 无人占领
+            </div>
+
+
+            <div
+                id="frontline"
+                class="card-line"
+            >
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- 玩家支援阵线 -->
+        <!-- ================================= -->
+
+        <section class="line-area">
+
+            <div class="line-title">
+                PLAYER SUPPORT LINE
+            </div>
+
+            <div
+                id="player-support-line"
+                class="card-line"
+            >
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- 玩家手牌 -->
+        <!-- ================================= -->
+
+        <section class="hand-area">
+
+            <div
+                id="hand"
+                class="hand"
+            >
+            </div>
+
+        </section>
+
+        <!-- ================================= -->
+        <!-- 玩家信息 -->
+        <!-- ================================= -->
+
+        <section class="player-info">
+
+            <span id="player-hp">
+                20 HP
+            </span>
+
+
+            <span id="kredits">
+                Kredits: 1 / 1
+            </span>
+
+
+            <button id="end-turn">
+                结束回合
+            </button>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- 拖动提示 -->
+        <!-- ================================= -->
+
+        <div
+            id="drag-info"
+            class="drag-info"
+        >
+            拖动单位到战场
+        </div>
+
+
+    </main>
+
+
+    <script src="game.js"></script>
+
+</body>
+
+</html>
