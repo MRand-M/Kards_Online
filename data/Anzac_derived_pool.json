@@ -1,0 +1,86 @@
+[
+    {
+        "card_id": "6th_brigade_nz_vet",
+        "name_zh": "新西兰第 6 旅",
+        "name_en": "6th BRIGADE NZ",
+        "description": "友方单位升为老兵时，随机对 1 个敌方目标造成 1 点伤害。",
+        "faction": "Anzac",
+        "type": "infantry",
+        "rarity": "Standard",
+        "kredits": 3,
+        "operation_cost": 1,
+        "attack": 4,
+        "defense": 5,
+        "attributes": [
+            "VeteranOf:6th_brigade_nz",
+            "blitz"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/6th_brigade_nz_vet.avif",
+        "set": "Special",
+        "import_id": "zI"
+    },
+    {
+        "card_id": "raaf_walrus_vet",
+        "name_zh": "RAAF 海象",
+        "name_en": "RAAF WALRUS",
+        "description": "本单位左侧所有单位具有 -1 行动花费。",
+        "faction": "Anzac",
+        "type": "fighter",
+        "rarity": "Special",
+        "kredits": 3,
+        "operation_cost": 1,
+        "attack": 2,
+        "defense": 4,
+        "attributes": [
+            "VeteranOf:raaf_walrus"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/raaf_walrus_vet.avif",
+        "set": "Special",
+        "import_id": "zH"
+    },
+    {
+        "card_id": "16th_infantry_brigade_vet",
+        "name_zh": "第 16 步兵旅",
+        "name_en": "16th INFANTRY BRIGADE",
+        "description": "友方使用降雨牌或风暴牌后，使所有友方单位获得 +2+2。",
+        "faction": "Anzac",
+        "type": "infantry",
+        "rarity": "Limited",
+        "kredits": 4,
+        "operation_cost": 1,
+        "attack": 4,
+        "defense": 8,
+        "attributes": [
+            "VeteranOf:16th_infantry_brigade",
+            "guard"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/16th_infantry_brigade_vet.avif",
+        "set": "Special",
+        "import_id": "zJ"
+    },
+    {
+        "card_id": "the_silent_seventh_vet",
+        "name_zh": "沉默七师",
+        "name_en": "THE SILENT SEVENTH",
+        "description": "友方最左侧手牌具有 -2 花费，至少为 1。",
+        "faction": "Anzac",
+        "type": "infantry",
+        "rarity": "Limited",
+        "kredits": 5,
+        "operation_cost": 1,
+        "attack": 8,
+        "defense": 8,
+        "attributes": [
+            "VeteranOf:the_silent_seventh",
+            "fury",
+            "guard"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/the_silent_seventh_vet.avif",
+        "set": "Special",
+        "import_id": "zG"
+    }
+]

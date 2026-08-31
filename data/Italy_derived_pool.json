@@ -1,0 +1,24 @@
+[
+    {
+        "card_id": "18th_bersaglieri",
+        "name_zh": "第 18 神射手团",
+        "name_en": "18th BERSAGLIERI",
+        "description": "部署：将 1 张“第 9 神射手团”洗入卡组。",
+        "faction": "Italy",
+        "type": "infantry",
+        "rarity": "Special",
+        "kredits": 6,
+        "operation_cost": 1,
+        "attack": 6,
+        "defense": 8,
+        "attributes": [
+            "blitz",
+            "guard",
+            "bond"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/18th_bersaglieri.avif",
+        "set": "OnlySpawnable",
+        "import_id": "Cw"
+    }
+]

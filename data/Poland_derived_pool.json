@@ -1,0 +1,22 @@
+[
+    {
+        "card_id": "legions",
+        "name_zh": "军团",
+        "name_en": "LEGIONS",
+        "description": "友方使用情报牌时，获得 +1+1。",
+        "faction": "Poland",
+        "type": "infantry",
+        "rarity": "Standard",
+        "kredits": 2,
+        "operation_cost": 1,
+        "attack": 2,
+        "defense": 2,
+        "attributes": [
+            "guard"
+        ],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/legions.avif",
+        "set": "OnlySpawnable",
+        "import_id": "iG"
+    }
+]

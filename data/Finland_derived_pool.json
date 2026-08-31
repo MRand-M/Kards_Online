@@ -1,0 +1,20 @@
+[
+    {
+        "card_id": "sissi",
+        "name_zh": "游击队员",
+        "name_en": "SISSI",
+        "description": "消灭受到本单位对战伤害的单位。",
+        "faction": "Finland",
+        "type": "infantry",
+        "rarity": "Standard",
+        "kredits": 1,
+        "operation_cost": 1,
+        "attack": 1,
+        "defense": 1,
+        "attributes": [],
+        "is_reserved": false,
+        "image_url": "https://www.kards.com/images/card/v51/zh-Hans/sissi.avif",
+        "set": "OnlySpawnable",
+        "import_id": "Bd"
+    }
+]
