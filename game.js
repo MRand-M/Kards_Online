@@ -213,6 +213,20 @@ async function initGame() {
 
 }
 
+function getCardImage(card) {
+
+    if (!card.image_url) {
+        return "";
+    }
+
+    const filename =
+        card.image_url
+            .split("/")
+            .pop();
+
+    return `images/${filename}`;
+
+}
 
 // ==========================================
 // 读取卡牌 JSON
@@ -446,6 +460,29 @@ function drawInitialHands() {
 
 }
 
+function hasCombatStats(card) {
+
+    if (!card) {
+        return false;
+    }
+
+    // HQ 没有普通单位的攻击 / 防御数值
+    if (
+        card.type === "hq"
+    ) {
+        return false;
+    }
+
+    // 指令和反制没有攻击 / 防御数值
+    if (
+        card.type === "order" ||
+        card.type === "countermeasure"
+    ) {
+        return false;
+    }
+
+    return true;
+}
 
 // ==========================================
 // 判断是否为单位
@@ -838,17 +875,23 @@ function renderLine(
                 element.innerHTML = `
 
                     <img
-                        src="${card.image_url}"
+                        src="${getCardImage(card)}"
                         alt="${card.name_en || ""}"
                     >
 
-                    <div class="card-stat attack-stat">
-                        ${Number(card.currentAttack ?? card.attack ?? 0)}
-                    </div>
+                    ${
+                        hasCombatStats(card)
+                            ? `
+                                <div class="card-stat attack-stat">
+                                    ${Number(card.currentAttack ?? card.attack ?? 0)}
+                                </div>
 
-                    <div class="card-stat defense-stat">
-                        ${Number(card.currentDefense ?? card.defense ?? 0)}
-                    </div>
+                                <div class="card-stat defense-stat">
+                                    ${Number(card.currentDefense ?? card.defense ?? 0)}
+                                </div>
+                            `
+                            : ""
+                    }
 
                 `;
 
@@ -933,17 +976,23 @@ function renderHand() {
             cardElement.innerHTML = `
 
                 <img
-                    src="${card.image_url}"
+                    src="${getCardImage(card)}"
                     alt="${card.name_en || ""}"
                 >
 
-                <div class="card-stat attack-stat">
-                    ${Number(card.currentAttack ?? card.attack ?? 0)}
-                </div>
+                ${
+                    hasCombatStats(card)
+                        ? `
+                            <div class="card-stat attack-stat">
+                                ${Number(card.currentAttack ?? card.attack ?? 0)}
+                            </div>
 
-                <div class="card-stat defense-stat">
-                    ${Number(card.currentDefense ?? card.defense ?? 0)}
-                </div>
+                            <div class="card-stat defense-stat">
+                                ${Number(card.currentDefense ?? card.defense ?? 0)}
+                            </div>
+                        `
+                        : ""
+                }
 
             `;
 
@@ -1078,7 +1127,7 @@ function startHandDrag(
     dragElement.innerHTML = `
 
         <img
-            src="${card.image_url}"
+            src="${getCardImage(card)}"
             alt=""
         >
 
@@ -1089,6 +1138,15 @@ function startHandDrag(
         dragElement
     );
 
+    console.log(
+        "拖动卡牌元素：",
+        dragElement
+    );
+
+    console.log(
+        "拖动卡牌图片：",
+        dragElement.querySelector("img").src
+    );
 
     handDragState.dragElement =
         dragElement;
@@ -1579,6 +1637,129 @@ function deployCardToSupport(
 
 }
 
+// ==========================================
+// DEBUG：在 AI 支援阵线生成随机单位
+// Console 输入：
+// spawnAIUnit()
+// ==========================================
+
+function spawnAIUnit() {
+
+    /*
+        从 AI 牌组中寻找单位
+    */
+
+    const unitIndexes = [];
+
+    for (
+        let i = 0;
+        i < gameState.ai.deck.length;
+        i++
+    ) {
+
+        const card =
+            gameState.ai.deck[i];
+
+        if (
+            isUnit(card)
+        ) {
+
+            unitIndexes.push(i);
+
+        }
+
+    }
+
+
+    /*
+        AI 牌组里没有单位
+    */
+
+    if (
+        unitIndexes.length === 0
+    ) {
+
+        console.log(
+            "AI 牌组里没有可生成的单位"
+        );
+
+        return;
+
+    }
+
+
+    /*
+        随机选择一个单位
+    */
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            unitIndexes.length
+        );
+
+
+    const deckIndex =
+        unitIndexes[randomIndex];
+
+
+    const card =
+        gameState.ai.deck[
+            deckIndex
+        ];
+
+
+    /*
+        从 AI 牌组移除
+    */
+
+    gameState.ai.deck.splice(
+        deckIndex,
+        1
+    );
+
+
+    /*
+        设置 AI 所有者
+    */
+
+    card.owner =
+        "ai";
+
+
+    /*
+        新生成的单位本回合不能行动
+    */
+
+    card.justDeployed =
+        true;
+
+    card.hasMoved =
+        false;
+
+    card.attacksThisTurn =
+        0;
+
+
+    /*
+        放入 AI 支援阵线
+    */
+
+    gameState.ai.supportLine.push(
+        card
+    );
+
+
+    console.log(
+        "DEBUG：AI 生成单位 →",
+        card.name_en ||
+        card.card_id
+    );
+
+
+    updateUI();
+
+}
 
 // ==========================================
 // 完成手牌拖动
@@ -1966,15 +2147,23 @@ function canUnitAttackTarget(
 ) {
 
     if (!attacker) {
+
         return false;
+
     }
+
 
     if (!target) {
+
         return false;
+
     }
 
 
-    // 不能攻击自己的单位
+    // ======================================
+    // 只能攻击敌方单位
+    // ======================================
+
     if (
         attacker.owner ===
         target.owner
@@ -1985,7 +2174,10 @@ function canUnitAttackTarget(
     }
 
 
-    // HQ 暂时允许作为攻击目标
+    // ======================================
+    // HQ 可以作为攻击目标
+    // ======================================
+
     if (
         isHQ(target)
     ) {
@@ -1995,28 +2187,20 @@ function canUnitAttackTarget(
     }
 
 
-    // 目前只处理步兵
+    // ======================================
+    // 普通单位可以互相攻击
+    // ======================================
+
     if (
-        attacker.type !==
-        "infantry"
+        isUnit(target)
     ) {
 
-        return false;
+        return true;
 
     }
 
 
-    // 暂时只允许攻击前线目标
-    if (
-        !isCardInFrontline(target)
-    ) {
-
-        return false;
-
-    }
-
-
-    return true;
+    return false;
 
 }
 
@@ -2566,12 +2750,107 @@ function handleUnitActionPointerUp(
         attacker.attacksThisTurn =
             (attacker.attacksThisTurn || 0) + 1;
 
+        /*
+            =====================================
+            造成战斗伤害
+            =====================================
+        */
+
+        const attackDamage =
+            Number(
+                attacker.currentAttack ??
+                attacker.attack
+            ) || 0;
+
+
+        /*
+            =====================================
+            攻击 HQ
+            =====================================
+        */
+
+        if (
+            isHQ(target)
+        ) {
+
+            if (
+                target.owner === "ai"
+            ) {
+
+                gameState.ai.hp -=
+                    attackDamage;
+
+
+                console.log(
+                    "AI HQ 受到伤害：",
+                    attackDamage
+                );
+
+
+                console.log(
+                    "AI HQ 剩余 HP：",
+                    gameState.ai.hp
+                );
+
+            }
+
+            else if (
+                target.owner === "player"
+            ) {
+
+                gameState.player.hp -=
+                    attackDamage;
+
+
+                console.log(
+                    "玩家 HQ 受到伤害：",
+                    attackDamage
+                );
+
+
+                console.log(
+                    "玩家 HQ 剩余 HP：",
+                    gameState.player.hp
+                );
+
+            }
+
+        }
+
+
+        /*
+            =====================================
+            攻击普通单位
+            =====================================
+        */
+
+        else {
+
+            target.currentDefense =
+                (
+                    Number(
+                        target.currentDefense ??
+                        target.defense
+                    ) || 0
+                ) - attackDamage;
+
+
+            console.log(
+                "目标剩余防御：",
+                target.currentDefense
+            );
+
+        }
 
         console.log(
             "攻击行动花费：",
             operationCost
         );
 
+        console.log(
+            "造成伤害：",
+            attackDamage
+        );
 
         console.log(
             "攻击判定成功：",
