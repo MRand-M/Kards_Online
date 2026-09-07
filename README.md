@@ -1,3 +1,3 @@
 # Kards_Online
-do not read me
+do not read me /n
 go away
